@@ -27,13 +27,13 @@ int main(int argc, char* argv[])
 	}*/
 
 	cout << ParseLine("first = one1 + two2 - three3 / four4 ;") << "\n";
+
 	cout << ParseLine("second = one1 * ( ( two2 * three3 ) + ( two2 * three3 ) );") << "\n";
 	cout << ParseLine("third = ONE + twenty - three3 ;") << "\n";
 	cout << ParseLine("third = old * thirty2 / b567 ;") << "\n";
 	cout << ParseLine("one1 * i8766e98e + bignum") << "\n";
 	cout << ParseLine("third = ONE + twenty - three3 ;") << "\n";
 	cout << ParseLine("third = ONE + twenty - three3 ;") << "\n";
-
 	cout << ParseLine("first = = one1 + two2 - three3 / four4 ;") << "\n";
 	cout << ParseLine("first = one1 + two2 - three3 / four4") << "\n";
 	cout << ParseLine("first = 1 + - two2 - three3 / four4 ;") << "\n";
