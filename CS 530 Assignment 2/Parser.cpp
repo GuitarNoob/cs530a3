@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <sstream>
 #include <string>
@@ -27,7 +28,6 @@ int main(int argc, char* argv[])
 	}*/
 
 	cout << ParseLine("first = one1 + two2 - three3 / four4 ;") << "\n";
-
 	cout << ParseLine("second = one1 * ( ( two2 * three3 ) + ( two2 * three3 ) );") << "\n";
 	cout << ParseLine("third = ONE + twenty - three3 ;") << "\n";
 	cout << ParseLine("third = old * thirty2 / b567 ;") << "\n";
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 	cout << ParseLine("sixty6 / min = fourth ;") << "\n";
 
 	filePath = ".\\SICTEST.asm";
-	
+	WriteResults();
 	system("PAUSE");
 }
 
@@ -176,6 +176,24 @@ void MakeList()
 	charsOnly.push_back('Z');
 }
 
+void WriteResults()
+{
+	ofstream myfile;
+	myfile.open ("Output.txt");
+	myfile << "****** Good Lines *****\n\n";
+	std::list<std::string>::const_iterator iterator;
+	for (iterator = GoodLines.begin(); iterator != GoodLines.end(); ++iterator) 
+	{
+		myfile << *iterator << "\n";	
+	}
+	myfile << "\n\n****** Bad Lines *****\n\n";
+	for (iterator = BadLines.begin(); iterator != BadLines.end(); ++iterator) 
+	{
+		myfile << *iterator << "\n";	
+	}
+	myfile.close();
+}
+
 void ParseFile(std::string Path)
 {
 	FILE *localFP;
@@ -188,20 +206,30 @@ void ParseFile(std::string Path)
 	//get each line
 	while(fgets(line, sizeof(line), localFP) != NULL)
 	{
-		ParseLine(std::string(line));		
+		ParseLine(std::string(line));	
 	}
 }
 
 bool ParseLine(std::string line)
 {
+	bool success = false;
 	if (line.find(";") != string::npos)
 	{
-		return GetAssignment(line);
+		success = GetAssignment(line);
 	}
 	else
 	{
-		return GetExpression(line);
+		success = GetExpression(line);
 	}
+	if (success == 1)
+	{
+		GoodLines.push_back(line);
+	}
+	else
+	{			
+		BadLines.push_back(std::string(line) + " Error: " + std::string(error));
+	}
+	return success;
 }
 
 bool GetAssignment(std::string line)
@@ -360,7 +388,7 @@ bool CheckID(std::string line)
 		{
 			if (!CheckCharOnly(line[i]))
 			{
-				error = "incorrect character in ID";
+				error = "incorrect character at the begginging of an ID";
 				return false;
 			}
 		}

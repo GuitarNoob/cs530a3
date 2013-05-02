@@ -17,8 +17,11 @@ char* error = new char[100];
 std::list<char> SS;
 std::list<char> charsOnly;
 std::list<char> Ops;
+std::list<string> GoodLines;
+std::list<string> BadLines;
 
 void MakeList();
+void WriteResults();
 void ParseFile(string Path);
 bool ParseLine(string line);
 bool GetAssignment(string line);
